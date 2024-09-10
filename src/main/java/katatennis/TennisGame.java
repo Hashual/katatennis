@@ -2,76 +2,74 @@ package katatennis;
 
 public class TennisGame implements TennisGameInterface {
     
-    private int m_score1 = 0;
-    private int m_score2 = 0;
-    private String player1Name;
-    private String player2Name;
-
-    public TennisGame(String player1Name, String player2Name) {
-        this.player1Name = player1Name;
-        this.player2Name = player2Name;
-    }
+    private int player1Score = 0;
+    private int player2Score = 0;
+    private static final String PLAYER_NAME = "player1";
 
     public void wonPoint(String playerName) {
-        if (playerName == "player1")
-            m_score1 += 1;
+        if (playerName.equals(PLAYER_NAME))
+            player1Score += 1;
         else
-            m_score2 += 1;
+            player2Score += 1;
     }
 
     public String getScore() {
-        String score = "";
-        int tempScore=0;
-        if (m_score1==m_score2)
-        {
-            switch (m_score1)
-            {
+        StringBuilder score = new StringBuilder();
+        int tempScore = 0;
+
+        if (player1Score == player2Score) {
+            switch (player1Score) {
                 case 0:
-                        score = "Love-All";
+                    score.append("Love-All");
                     break;
                 case 1:
-                        score = "Fifteen-All";
+                    score.append("Fifteen-All");
                     break;
                 case 2:
-                        score = "Thirty-All";
+                    score.append("Thirty-All");
                     break;
                 default:
-                        score = "Deuce";
+                    score.append("Deuce");
                     break;
-                
             }
-        }
-        else if (m_score1>=4 || m_score2>=4)
-        {
-            int minusResult = m_score1-m_score2;
-            if (minusResult==1) score ="Advantage player1";
-            else if (minusResult ==-1) score ="Advantage player2";
-            else if (minusResult>=2) score = "Win for player1";
-            else score ="Win for player2";
-        }
-        else
-        {
-            for (int i=1; i<3; i++)
-            {
-                if (i==1) tempScore = m_score1;
-                else { score+="-"; tempScore = m_score2;}
-                switch(tempScore)
-                {
+        } else if (player1Score >= 4 || player2Score >= 4) {
+            int minusResult = player1Score - player2Score;
+            if (minusResult == 1) {
+                score.append("Advantage player1");
+            } else if (minusResult == -1) {
+                score.append("Advantage player2");
+            } else if (minusResult >= 2) {
+                score.append("Win for player1");
+            } else {
+                score.append("Win for player2");
+            }
+        } else {
+            for (int i = 1; i < 3; i++) {
+                if (i == 1) tempScore = player1Score;
+                else {
+                    score.append("-");
+                    tempScore = player2Score;
+                }
+                switch (tempScore) {
                     case 0:
-                        score+="Love";
+                        score.append("Love");
                         break;
                     case 1:
-                        score+="Fifteen";
+                        score.append("Fifteen");
                         break;
                     case 2:
-                        score+="Thirty";
+                        score.append("Thirty");
                         break;
                     case 3:
-                        score+="Forty";
+                        score.append("Forty");
                         break;
+                    default :
+                        score.append("Invalid score");
+                        break;
+
                 }
             }
         }
-        return score;
+        return score.toString();
     }
 }
